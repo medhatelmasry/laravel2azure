@@ -88,11 +88,14 @@ jobs:
           slot-name: 'Production'
           package: .
 
+      - name: Install Azure CLI
+        run: |
+            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  
       - name: Create storage and cache directories
         run: |
-          mkdir -p /home/site/wwwroot/storage/framework/views
-          mkdir -p /home/site/wwwroot/bootstrap/cache
-          
+            az webapp ssh --name laravel2azure-mze --resource-group laravel2azure_RG --command "mkdir -p /home/site/wwwroot/storage/framework/views && mkdir -p /home/site/wwwroot/bootstrap/cache"
+  
       - name: Set permissions for storage directory
         run: |
-          curl -sS https://raw.githubusercontent.com/medhatelmasry/laravel2azure/main/set_permissions.sh | bash      
+            az webapp ssh --name laravel2azure-mze --resource-group laravel2azure_RG --command "chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache"
