@@ -88,10 +88,19 @@ jobs:
           slot-name: 'Production'
           package: .
 
+      - name: Upload startup script
+        run: |
+          echo "mkdir -p /home/site/wwwroot/storage/framework/views" > startup.sh
+          echo "mkdir -p /home/site/wwwroot/bootstrap/cache" >> startup.sh
+          echo "chmod -R 777 /home/site/wwwroot/storage" >> startup.sh
+          echo "chmod -R 777 /home/site/wwwroot/bootstrap/cache" >> startup.sh
+          echo "php /home/site/wwwroot/artisan cache:clear" >> startup.sh
+          echo "php /home/site/wwwroot/artisan config:clear" >> startup.sh
+          echo "php /home/site/wwwroot/artisan config:cache" >> startup.sh
+          echo "php /home/site/wwwroot/artisan route:clear" >> startup.sh
+          echo "php /home/site/wwwroot/artisan view:clear" >> startup.sh
+          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
+
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
-      - name: Set permissions for storage and cache directories
-        run: |
-          az webapp ssh --name laravel2azure-mze --resource-group laravel2azure_RG --command "chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache"
