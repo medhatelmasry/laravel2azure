@@ -87,6 +87,11 @@ jobs:
           app-name: 'laravel2azure-mze'
           slot-name: 'Production'
           package: .
+
+      - name: Create storage and cache directories
+        run: |
+          mkdir -p /home/site/wwwroot/storage/framework/views
+          mkdir -p /home/site/wwwroot/bootstrap/cache
           
       - name: Set permissions for storage directory
         run: |
