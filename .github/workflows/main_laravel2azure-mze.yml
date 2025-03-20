@@ -81,21 +81,16 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4F07DDAB0F7E4A8984F5EA0401A23183 }}
 
       - name: 'Deploy to Azure Web App'
-        run: |
-          az webapp deploy --resource-group laravel2azure_RG --name laravel2azure-mze --src-path release.zip
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
+        with:
+          app-name: 'laravel2azure-mze'
+          slot-name: 'Production'
+          package: .
 
-      - name: Upload startup script
+      - name: Set custom startup command
         run: |
-          echo "mkdir -p /home/site/wwwroot/storage/framework/views" > startup.sh
-          echo "mkdir -p /home/site/wwwroot/bootstrap/cache" >> startup.sh
-          echo "chmod -R 777 /home/site/wwwroot/storage" >> startup.sh
-          echo "chmod -R 777 /home/site/wwwroot/bootstrap/cache" >> startup.sh
-          echo "php /home/site/wwwroot/artisan cache:clear" >> startup.sh
-          echo "php /home/site/wwwroot/artisan config:clear" >> startup.sh
-          echo "php /home/site/wwwroot/artisan config:cache" >> startup.sh
-          echo "php /home/site/wwwroot/artisan route:clear" >> startup.sh
-          echo "php /home/site/wwwroot/artisan view:clear" >> startup.sh
-          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
+          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache && php /home/site/wwwroot/artisan cache:clear && php /home/site/wwwroot/artisan config:clear && php /home/site/wwwroot/artisan config:cache && php /home/site/wwwroot/artisan route:clear && php /home/site/wwwroot/artisan view:clear"
 
       - name: Install Azure CLI
         run: |
