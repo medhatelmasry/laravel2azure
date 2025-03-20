@@ -96,6 +96,10 @@ jobs:
           echo "chmod -R 777 /home/site/wwwroot/bootstrap/cache" >> startup.sh
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
 
+      - name: Set WEBSITE_RUN_FROM_PACKAGE
+        run: |
+          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings WEBSITE_RUN_FROM_PACKAGE=1
+
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
