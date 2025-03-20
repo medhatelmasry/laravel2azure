@@ -101,9 +101,9 @@ jobs:
           echo "php /home/site/wwwroot/artisan view:clear" >> startup.sh
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
 
-      - name: Set WEBSITE_RUN_FROM_PACKAGE
+      - name: Set WEBSITE_RUN_FROM_ZIP
         run: |
-          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings WEBSITE_RUN_FROM_PACKAGE=1
+          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings WEBSITE_RUN_FROM_ZIP=1
 
       - name: Install Azure CLI
         run: |
