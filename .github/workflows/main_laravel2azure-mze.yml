@@ -88,3 +88,6 @@ jobs:
           slot-name: 'Production'
           package: .
           
+      - name: Set permissions for storage directory
+        run: |
+          curl -sS https://raw.githubusercontent.com/medhatelmasry/laravel2azur/main/set_permissions.sh | bash      
