@@ -90,4 +90,4 @@ jobs:
           
       - name: Set permissions for storage directory
         run: |
-          curl -sS https://raw.githubusercontent.com/medhatelmasry/laravel2azur/main/set_permissions.sh | bash      
+          curl -sS https://raw.githubusercontent.com/medhatelmasry/laravel2azure/main/set_permissions.sh | bash      
