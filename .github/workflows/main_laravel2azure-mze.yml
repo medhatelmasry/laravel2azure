@@ -90,16 +90,12 @@ jobs:
 
       - name: Upload startup script
         run: |
+          echo "mkdir -p /home/site/wwwroot/storage/framework/views" > startup.sh
+          echo "mkdir -p /home/site/wwwroot/bootstrap/cache" >> startup.sh
+          echo "chmod -R 777 /home/site/wwwroot/storage" >> startup.sh
+          echo "chmod -R 777 /home/site/wwwroot/bootstrap/cache" >> startup.sh
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
-  
+
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-
-      - name: Create storage and cache directories
-        run: |
-          az webapp ssh --name laravel2azure-mze --resource-group laravel2azure_RG --command "mkdir -p /home/site/wwwroot/storage/framework/views && mkdir -p /home/site/wwwroot/bootstrap/cache"
-
-      - name: Set permissions for storage directory
-        run: |
-          az webapp ssh --name laravel2azure-mze --resource-group laravel2azure_RG --command "chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache"
