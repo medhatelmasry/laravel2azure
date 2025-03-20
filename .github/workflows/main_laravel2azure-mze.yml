@@ -88,10 +88,10 @@ jobs:
           slot-name: 'Production'
           package: .
 
-      - name: Set custom startup command
-        run: |
-          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache && php /home/site/wwwroot/artisan cache:clear && php /home/site/wwwroot/artisan config:clear && php /home/site/wwwroot/artisan config:cache && php /home/site/wwwroot/artisan route:clear && php /home/site/wwwroot/artisan view:clear"
-
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Set permissions for storage and cache directories
+        run: |
+          az webapp ssh --name laravel2azure-mze --resource-group laravel2azure_RG --command "chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache"
