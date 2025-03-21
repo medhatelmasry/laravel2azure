@@ -5,7 +5,7 @@ server {
     root /home/site/wwwroot/public;
     index index.php index.html index.htm;
 
-    server_name example.com www.example.com; # Replace with your domain
+    server_name laravel2azure-mze-bmaae6hxadd2d0dd.westus-01.azurewebsites.net;
 
     location / {
         try_files $uri $uri/ /index.php?$args;

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stop Nginx
+service nginx stop
+
 # Set correct permissions
 chmod -R 775 /home/site/wwwroot/storage
 chmod -R 775 /home/site/wwwroot/bootstrap/cache
@@ -17,5 +20,5 @@ php /home/site/wwwroot/artisan view:clear
 cp /home/site/wwwroot/default /etc/nginx/sites-available/default
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Reload Nginx service
-service nginx reload
+# Start Nginx
+service nginx start
