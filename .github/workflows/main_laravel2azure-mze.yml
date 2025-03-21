@@ -33,9 +33,6 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'true'
         run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
 
-      - name: Set executable permission for startup script
-        run: chmod +x startup.sh
-
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -79,18 +76,13 @@ jobs:
           slot-name: 'Production'
           package: .
 
+      - name: Disable WEBSITE_RUN_FROM_PACKAGE
+        run: az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings WEBSITE_RUN_FROM_PACKAGE="0"
+
       - name: Set startup command
         run: |
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
 
-      - name: give full permission to storage folder (NEW)
-        run: chmod -R 777 storage
-
-      - name: migrate database (NEW)
-        run: php artisan migrate --force --seed
-
-      - name: give full permission to database folder (NEW)
-        run: chmod -R 777 database
-
-      - name: give full permission to bootstrap/cache folder (NEW)
-        run: chmod -R 777 bootstrap/cache
+      - name: Execute permissions and migration using SSH
+        run: |
+          az webapp ssh --resource-group laravel2azure_RG --name laravel2azure-mze --command "chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache && php /home/site/wwwroot/artisan migrate --force"
