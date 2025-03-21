@@ -15,6 +15,10 @@ chmod -R 775 /home/site/wwwroot/bootstrap/cache
 chown -R www-data:www-data /home/site/wwwroot/storage
 chown -R www-data:www-data /home/site/wwwroot/bootstrap/cache
 
+# Run database migrations and seeders
+php /home/site/wwwroot/artisan migrate --force
+php /home/site/wwwroot/artisan db:seed --force
+
 # Clear and cache Laravel configurations
 php /home/site/wwwroot/artisan cache:clear
 php /home/site/wwwroot/artisan config:clear
