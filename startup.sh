@@ -3,6 +3,12 @@
 # Stop Nginx
 service nginx stop
 
+# Check if school.sqlite exists, and create it if it doesn't
+if [ ! -f /home/site/wwwroot/database/school.sqlite ]; then
+  touch /home/site/wwwroot/database/school.sqlite
+  chmod 666 /home/site/wwwroot/database/school.sqlite
+fi
+
 # Set correct permissions
 chmod -R 775 /home/site/wwwroot/storage
 chmod -R 775 /home/site/wwwroot/bootstrap/cache
