@@ -45,6 +45,9 @@ jobs:
       - name: give full permission to bootstrap/cache folder (NEW)
         run: chmod -R 777 bootstrap/cache
 
+      - name: Set executable permission for startup script
+        run: chmod +x startup.sh
+
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -88,8 +91,9 @@ jobs:
           slot-name: 'Production'
           package: .
 
-      - name: Set executable permission for startup script
-        run: chmod +x /home/site/wwwroot/startup.sh
+      - name: Set startup command
+        run: |
+          az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
 
       - name: Install Azure CLI
         run: |
