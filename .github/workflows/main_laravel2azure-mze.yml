@@ -88,9 +88,8 @@ jobs:
           slot-name: 'Production'
           package: .
 
-      - name: Upload startup script
+      - name: Set startup command
         run: |
-          cp startup.sh /home/site/wwwroot/startup.sh
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
 
       - name: Install Azure CLI
