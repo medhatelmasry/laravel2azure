@@ -82,7 +82,3 @@ jobs:
       - name: Set startup command
         run: |
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
-
-      - name: Execute permissions and migration using SSH
-        run: |
-          az webapp ssh --resource-group laravel2azure_RG --name laravel2azure-mze --command "chmod -R 777 /home/site/wwwroot/storage && chmod -R 777 /home/site/wwwroot/bootstrap/cache && php /home/site/wwwroot/artisan migrate --force"
