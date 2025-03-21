@@ -99,6 +99,8 @@ jobs:
           echo "php /home/site/wwwroot/artisan config:cache" >> startup.sh
           echo "php /home/site/wwwroot/artisan route:clear" >> startup.sh
           echo "php /home/site/wwwroot/artisan view:clear" >> startup.sh
+          echo "cp /home/site/wwwroot/default /etc/nginx/sites-available/default" >> startup.sh
+          echo "service nginx reload" >> startup.sh
           az webapp config appsettings set --name laravel2azure-mze --resource-group laravel2azure_RG --settings STARTUP_COMMAND="bash /home/site/wwwroot/startup.sh"
 
       - name: Install Azure CLI
